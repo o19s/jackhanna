@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.io.FileUtils;
 import org.apache.curator.framework.CuratorFramework;
@@ -16,16 +15,12 @@ public class DuCommand extends AbstractCommand {
 
 	public Options getCliOptions() {
 		Options options = new Options();
-		Option zkPath = OptionBuilder.withArgName("zkPath").hasArg()
-				.withDescription("ZooKeeper path: /configs").create("zkPath");
-		zkPath.setRequired(true);
+		
+		// Not required, it can be the only parameter, passed after the ls, so not required.
+		Option zkPath = Option.builder().hasArg().argName("zkPath").longOpt("zkPath").required(false).desc("Zookeeper path").build();
 		options.addOption(zkPath);
-		Option humanReadable = OptionBuilder
-				.withArgName("h")
-				.withDescription(
-						"a human-readable display value (includes units - GB, MB, KB or bytes)")
-				.create("h");
-		humanReadable.setRequired(false);
+
+		Option humanReadable = Option.builder().argName("h").longOpt("h").desc("a human-readable display value (includes units - GB, MB, KB or bytes)").build();
 		options.addOption(humanReadable);
 		return options;
 	}
@@ -34,6 +29,13 @@ public class DuCommand extends AbstractCommand {
 			throws CommandException {
 		this.zkClient = client;
 		String zkPath = line.getOptionValue("zkPath");
+		if (zkPath == null && line.getArgs().length >= 1){
+			zkPath = line.getArgs()[0];
+		}
+		if (zkPath == null){
+			throw new CommandException("Must supply either -zkPath <dir> or the <dir> following ls");
+		}
+		zkPath = cleanupZkPath(zkPath);
 		du = 0;
 		walkTree(zkPath);
 		if (line.hasOption("h")) {

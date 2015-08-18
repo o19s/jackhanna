@@ -2,10 +2,10 @@ package com.o19s.jackhanna.cli;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
 import org.apache.curator.framework.CuratorFramework;
 
 public abstract class AbstractCommand implements Command {
@@ -17,8 +17,7 @@ public abstract class AbstractCommand implements Command {
 	public int execute(CuratorFramework client, String[] cmdArgs){
 		Options options = getCliOptions();
 
-		//CommandLineParser parser = new GnuParser();
-		CommandLineParser parser = new PosixParser();
+		CommandLineParser parser = new DefaultParser();
 		CommandLine line = null;
 
 		try {
@@ -46,5 +45,13 @@ public abstract class AbstractCommand implements Command {
 
 	public abstract void doExecute(CuratorFramework client, CommandLine line)
 			throws CommandException;
+	
+	protected String cleanupZkPath (String zkPath){
+		if (zkPath.length() > 1 && zkPath.endsWith("/")){  // unless we have "/", cleanup the param
+			zkPath = zkPath.substring(0, zkPath.length()-1);
+		}
+		return zkPath;
+		
+	}
 
 }

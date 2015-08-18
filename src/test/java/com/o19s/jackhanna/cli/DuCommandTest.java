@@ -7,13 +7,10 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.concurrent.TimeoutException;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
-
-import com.o19s.jackhanna.cli.DuCommand;
-import com.o19s.jackhanna.cli.PutCommand;
 
 public class DuCommandTest extends CLITestCase {
 
@@ -34,9 +31,13 @@ public class DuCommandTest extends CLITestCase {
 	
 	@Test
 	public void testWalkTreeAndCalculateDu() throws Throwable, TimeoutException, IOException {
-		URL url = this.getClass().getResource("/");
-		File directory = new File(url.getFile());
+//		URL url = this.getClass().getResource("/src");
+		File directory = new File("./src/main/resources");
+		System.out.println("Directory:" + directory.getAbsolutePath());
 		assertTrue(directory.exists());
+		
+		long spaceUsedBytes = FileUtils.sizeOfDirectory(directory.getAbsoluteFile());
+		
 		String[] args = {"-zkPath", ZK_PATH_ROOT + "/testgetdir","-path", directory.getAbsolutePath()};
 
 		assertEquals(0, new PutCommand().execute(zkClient, args));
@@ -50,7 +51,11 @@ public class DuCommandTest extends CLITestCase {
 		
 		resetStandardOut();
 		
-		assertEquals("27422",baos.toString().trim());
+		
+		String zkSpaceUsed = baos.toString().trim();
+		
+		
+		assertEquals("Verify bytes match", spaceUsedBytes+"",zkSpaceUsed);
 		
 		
 		String[] args3 = {"-zkPath", ZK_PATH_ROOT + "/testgetdir", "-h"};
@@ -60,8 +65,9 @@ public class DuCommandTest extends CLITestCase {
 		assertEquals(0, result);
 		
 		resetStandardOut();
-		
-		assertEquals("26 KB",baos.toString().trim());
+		String localSpaceUsed = FileUtils.byteCountToDisplaySize(spaceUsedBytes);
+		zkSpaceUsed = baos.toString().trim();
+		assertEquals("Verify human formatting works", localSpaceUsed,zkSpaceUsed);
 
 	}
 

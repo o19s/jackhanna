@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.io.FileUtils;
 import org.apache.curator.framework.CuratorFramework;
@@ -19,15 +18,12 @@ public class PutCommand extends AbstractCommand {
 	
 	public Options getCliOptions() {
 		Options options = new Options();
-		Option path = OptionBuilder.withArgName("path").hasArg()
-				.withDescription("Filesystem path /tmp/somefile")
-				.create("path");
-		path.setRequired(true);
-		options.addOption(path);
-		Option zkPath = OptionBuilder.withArgName("zkPath").hasArg()
-				.withDescription("ZooKeeper path: /configs").create("zkPath");
-		zkPath.setRequired(true);
+		Option zkPath = Option.builder().hasArg().argName("zkPath").longOpt("zkPath").required().desc("Zookeeper path").build();
 		options.addOption(zkPath);
+
+		Option path = Option.builder().hasArg().argName("path").longOpt("path").required().desc("Local filesystem path").build();
+		options.addOption(path);
+		
 		return options;
 	}
 	

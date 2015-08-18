@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.curator.framework.CuratorFramework;
 
@@ -13,8 +12,8 @@ public class LsCommand extends AbstractCommand {
 	public Options getCliOptions() {
 		Options options = new Options();
 
-		Option zkPath = OptionBuilder.withArgName("zkPath").hasArg()
-				.withDescription("ZooKeeper path: /configs").create("zkPath");
+		// Not required, it can be the only parameter, passed after the ls, so not required.
+		Option zkPath = Option.builder().hasArg().argName("zkPath").longOpt("zkPath").required(false).desc("Zookeeper path").build();
 		options.addOption(zkPath);
 		return options;
 	}
@@ -27,6 +26,7 @@ public class LsCommand extends AbstractCommand {
 		if (zkPath == null){
 			throw new CommandException("Must supply either -zkPath <dir> or the <dir> following ls");
 		}
+		zkPath = cleanupZkPath(zkPath);
 		try {
 			List<String> children = client.getChildren().forPath(zkPath);
 
@@ -37,7 +37,7 @@ public class LsCommand extends AbstractCommand {
 			}
 
 		} catch (Exception e) {
-			throw new CommandException("Couldn't ls path " + zkPath, e);
+			System.err.println("ls: " + zkPath + ": No such node");
 		}
 	}
 

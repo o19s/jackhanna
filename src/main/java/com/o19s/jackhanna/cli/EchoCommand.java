@@ -4,9 +4,7 @@ import java.nio.charset.Charset;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
-import org.apache.commons.io.FileUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.zookeeper.CreateMode;
 
@@ -16,15 +14,11 @@ public class EchoCommand extends AbstractCommand {
 	
 	public Options getCliOptions() {
 		Options options = new Options();
-		Option path = OptionBuilder.withArgName("text").hasArg()
-				.withDescription("Text to be echoed.")
-				.create("text");
-		path.setRequired(true);
-		options.addOption(path);
-		Option zkPath = OptionBuilder.withArgName("zkPath").hasArg()
-				.withDescription("ZooKeeper path: /configs").create("zkPath");
-		zkPath.setRequired(true);
+		Option zkPath = Option.builder().hasArg().argName("zkPath").longOpt("zkPath").required().desc("Zookeeper path").build();
 		options.addOption(zkPath);
+
+		Option path = Option.builder().hasArg().argName("t").longOpt("text").required().desc("Text to be echoed").build();
+		options.addOption(path);
 		return options;
 	}
 	

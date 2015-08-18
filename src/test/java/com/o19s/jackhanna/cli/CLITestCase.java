@@ -9,7 +9,7 @@ import java.io.PrintStream;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.curator.framework.CuratorFramework;
@@ -17,7 +17,6 @@ import org.junit.After;
 import org.junit.Before;
 
 import com.o19s.jackhanna.ZKSolrConfUploader;
-import com.o19s.jackhanna.cli.DeleteCommand;
 
 public abstract class CLITestCase {
 
@@ -58,7 +57,7 @@ public abstract class CLITestCase {
 
 	public CommandLine convertArgsToCmdLine(Options options, String[] args)
 			throws RuntimeException {
-		CommandLineParser parser = new GnuParser();
+		CommandLineParser parser = new DefaultParser();
 		CommandLine line = null;
 
 		try {

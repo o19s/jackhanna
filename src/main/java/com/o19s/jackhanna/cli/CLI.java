@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 
 import com.o19s.jackhanna.ZKSolrConfUploader;
@@ -33,7 +32,7 @@ public class CLI {
 		ACTIONS.put("pop", new PopCommand());
 		
 	    if (args.length == 0){	
-	        System.out.println( "usage: java -jar jackhanna.jar zookeeper_url(localhost:2181) [commandname] [params...]");
+	        System.out.println( "usage: java -jar jackhanna.jar localhost:2181 [commandname] [params...]");
 
 	        for (Iterator<String> iter = ACTIONS.keySet().iterator(); iter.hasNext(); ) {
 	        	String cmdName = iter.next();
@@ -47,14 +46,21 @@ public class CLI {
 		
 		// create Options object
 		Options options = new Options();
-		Option server   = OptionBuilder.withArgName( "s" )
+		Option server   = Option.builder("s").desc("ZooKeeper url: 127.0.0.1:2181")			
         .hasArg()
-        .withDescription(  "ZooKeeper server url: 127.0.0.1:2181" )
-        .create( "server" );
-		server.setRequired(true);
+        .required()
+        .longOpt( "server" ).build();
+        
+        
+      
 		options.addOption(server);
-
-
+/*
+		Option listener  = OptionBuilder.withArgName( "classname" )
+                .hasArg()
+                .withDescription( "add an instance of class as "
+                                  + "a project listener" )
+                .create( "listener"); 
+*/
 
 		
 

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.curator.framework.CuratorFramework;
 
@@ -13,8 +12,7 @@ public class PopCommand extends AbstractCommand {
 	public Options getCliOptions() {
 		Options options = new Options();
 
-		Option zkPath = OptionBuilder.withArgName("zkPath").hasArg()
-				.withDescription("ZooKeeper path: /configs").create("zkPath");
+		Option zkPath = Option.builder().hasArg().argName("zkPath").longOpt("zkPath").required().desc("Zookeeper path").build();
 		options.addOption(zkPath);
 		return options;
 	}

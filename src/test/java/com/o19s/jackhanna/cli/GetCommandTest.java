@@ -105,6 +105,7 @@ public class GetCommandTest extends CLITestCase {
 			//
 			sb.append(lineSep);
 		}
+		br.close();
 		return sb.toString();
 	}
 }

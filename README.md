@@ -64,3 +64,13 @@ Get a directory of files from Zookeeper:
 ```
 java -jar jackhanna.jar localhost:2181 get --zkPath /environment/configs/resources --path /tmp
 ```
+
+## How to install on your system ##
+
+There should be a `brew install jackhanna` but I haven't figured that out!  For now you need to check the code out and do:
+
+```
+mvn install
+cp ./bin/jackhanna /usr/local/bin
+jackhanna --help
+```

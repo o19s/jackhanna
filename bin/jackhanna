@@ -3,7 +3,6 @@
 # Environment Variable Prerequisites
 #
 #   JAVA_HOME       Must point at your Java Development Kit installation.
-#   JACK_HANNA_HOME Must point at your Jack Hanna install directory.
 
 if [ -z "$JAVA_HOME" ] ; then
   JAVACMD=`which java`

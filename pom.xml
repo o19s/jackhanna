@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.o19s.jackhanna</groupId>
   <artifactId>jackhanna</artifactId>
-  <version>0.0.3-SNAPSHOT</version>
+  <version>0.0.4-SNAPSHOT</version>
   <!--repositories>
   <repository>
     <id>lucene-solr-jenkins-trunk</id>
@@ -96,10 +96,11 @@
     <version>1.6.4</version>
   </dependency>
   <dependency>
-    <groupId>log4j</groupId>
-    <artifactId>log4j</artifactId>
-    <version>1.2.16</version>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.13.3</version>
   </dependency>
+
   <dependency>
     <groupId>junit</groupId>
     <artifactId>junit</artifactId>

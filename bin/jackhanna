@@ -18,5 +18,5 @@ if [ ! -x "$JAVACMD" ] ; then
 fi
 
 exec "$JAVACMD" \
-  -jar ~/.m2/repository/com/o19s/jackhanna/jackhanna/0.0.3-SNAPSHOT/jackhanna-0.0.3-SNAPSHOT.jar \
+  -jar ~/.m2/repository/com/o19s/jackhanna/jackhanna/0.0.4-SNAPSHOT/jackhanna-0.0.4-SNAPSHOT.jar \
    "$@"

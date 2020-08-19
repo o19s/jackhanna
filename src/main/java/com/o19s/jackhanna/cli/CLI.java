@@ -23,6 +23,7 @@ public class CLI {
 
 	static int mainNoExit(String[] args) {
 		ACTIONS.put("put", new PutCommand());
+		ACTIONS.put("putfile", new PutFileCommand());
 		ACTIONS.put("get", new GetCommand());
 		ACTIONS.put("ls", new LsCommand());
 		ACTIONS.put("cat", new CatCommand());

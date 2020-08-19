@@ -43,6 +43,13 @@ java -jar jackhanna.jar localhost:2181 rm --zkPath=/environment/properties
 Put a single file into Zookeeper:
 
 ```
+java -jar jackhanna.jar localhost:2181 putfile --zkFile /configs/ecommerce/rules.txt --file ./src/main/resources/sample_rules.txt
+
+```
+
+or to put a single file into a directory:
+
+```
 java -jar jackhanna.jar localhost:2181 put --zkPath /environment/config/log4j.xml --path ./src/main/resources/log4j.xml
 ```
 
